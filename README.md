@@ -31,85 +31,46 @@
 -  Programming Problems
 # 4. ARRAYS, RECORDS AND POINTERS
 - 4.1 Introduction
-
 - 4.2 Linear Arrays
-
 - 4.3 Representation of Linear Arrays in Memory
-
 - 4.4 Traversing Linear Arrays
-
 - 4.5 Inserting and Deleting
-
 - 4.6 Sorting; Bubble Sort
-
 - 4.7 Searching; Linear Search
-
 - 4.8 Binary Search
-
 - 4.9 Multidimensional Arrays
-
 - 4.10 Pointers; Pointer Arrays
-
 - 4.11 Records; Record Structures
-
 - 4.12 Representation of Records in Memory; Parallel Arrays
-
 - 4.13 Matrices
-
 - 4.14 Sparse Matrices
-
 - Solved Problems
-
 - Supplementary Problems
-
 - Programming Problems
-
 # 5. LINKED LISTS
-5.1 Introduction
-
-5.2 Linked Lists
-
-5.3 Representation of Linked Lists in Memory
-
-5.4 Traversing a Linked List
-
-5.5 Searching a Linked List
-
-5.6 Memory Allocation; Garbage Collection
-
-6. STACKS, QUEUES, RECURSION
-6.1 Introduction
-
-6.2 Stacks
-
-6.3 Array Representation of Stacks
-
-6.4 Linked Representation of Stacks
-
-6.5 Arithmetic Expressions; Polish Notation
-
-6.6 Quicksort, an Application of Stacks
-
-6.7 Recursion
-
-6.8 Towers of Hanoi
-
-6.9 Implementation of Recursive Procedures by Stacks
-
-6.10 Queues
-
-6.11 Linked Representation of Queues
-
-6.12 Deques
-
-6.13 Priority Queues
-
-Solved Problems
-
-Supplementary Problems
-
-Programming Problems
-
+- 5.1 Introduction
+- 5.2 Linked Lists
+- 5.3 Representation of Linked Lists in Memory
+- 5.4 Traversing a Linked List
+- 5.5 Searching a Linked List
+- 5.6 Memory Allocation; Garbage Collection
+# 6. STACKS, QUEUES, RECURSION
+- 6.1 Introduction
+- 6.2 Stacks 
+- 6.3 Array Representation of Stacks
+- 6.4 Linked Representation of Stacks
+- 6.5 Arithmetic Expressions; Polish Notation
+- 6.6 Quicksort, an Application of Stacks
+- 6.7 Recursion
+- 6.8 Towers of Hanoi
+- 6.9 Implementation of Recursive Procedures by Stacks
+- 6.10 Queues
+- 6.11 Linked Representation of Queues
+- 6.12 Deques
+- 6.13 Priority Queues
+- Solved Problems
+- Supplementary Problems
+-Programming Problems
 # 7. TREES
 - 7.1 Introduction
 - 7.2 Binary Trees
