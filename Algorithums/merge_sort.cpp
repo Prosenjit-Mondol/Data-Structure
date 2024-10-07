@@ -3,59 +3,70 @@
 #include <bits/stdc++.h>
 using namespace std;
 //------------------------------------------------------------------------------
-void merge(int a[],int p,int q,int r){
-    int nl=q-p+1;
-    int nr=r-q;
-    int al[nl-1];
-    int ar[nr-1];
+void merge(int a[], int p, int q, int r)
+{
 
-    for (int i = 0; i < nl; i++)
-    {
-        al[i]=a[p+i];
-    }
-    for (int j = 0; j <nr-1; j++)
-    {
-        ar[j]=a[q+j+1];
-    }
-    int i=0,j=0,k=p;
+    // Create L ← A[p..q] and M ← A[q+1..r]
+    int n1 = q - p + 1;
+    int n2 = r - q;
 
-    while (i<nl && j<nr)
+    int L[n1], M[n2];
+
+    for (int i = 0; i < n1; i++)
+        L[i] = a[p + i];
+    for (int j = 0; j < n2; j++)
+        M[j] = a[q + 1 + j];
+
+    // Maintain current index of sub-arrays and main array
+    int i, j, k;
+    i = 0;
+    j = 0;
+    k = p;
+
+    // Until we reach either end of either L or M, pick larger among
+    // elements L and M and place them in the correct position at A[p..r]
+    while (i < n1 && j < n2)
     {
-        if (al[i]<=ar[j])
+        if (L[i] <= M[j])
         {
-            a[k]=al[i];
+            a[k] = L[i];
             i++;
         }
-        else if (a[k]==ar[j])
+        else
         {
+            a[k] = M[j];
             j++;
-            k++;
         }
+        k++;
     }
-    while (i<nl)
+
+    // When we run out of elements in either L or M,
+    // pick up the remaining elements and put in A[p..r]
+    while (i < n1)
     {
-        a[k]=al[i];
+        a[k] = L[i];
         i++;
         k++;
     }
-    while (j<nr)
+
+    while (j < n2)
     {
-        a[k]=ar[j];
+        a[k] = M[j];
         j++;
         k++;
     }
-    
 }
-void mergesort(int a[],int p, int r)
+
+void mergesort(int a[], int p, int r)
 {
-    if (p>=r)
-    return;
+    if (p >= r)
+        return;
 
-    int q=(p+r)/2;
-    mergesort(a,p,q);
-    mergesort(a,q+1,r);
+    int q = p + (r-p) / 2;
+    mergesort(a, p, q);
+    mergesort(a, q + 1, r);
 
-    merge(a,p,q,r);
+    merge(a, p, q, r);
 }
 
 //------------------------------------------------------------------------------
@@ -71,6 +82,13 @@ int main()
     {
         cin >> a[i];
     }
-    mergesort(a,0,n-1);
+
+    mergesort(a, 0, n - 1);
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << a[i] << " ";
+    }
+
     return 0;
 }
