@@ -62,7 +62,7 @@ void mergesort(int a[], int p, int r)
     if (p >= r)
         return;
 
-    int q = p + (r-p) / 2;
+    int q = (p +r )/ 2;
     mergesort(a, p, q);
     mergesort(a, q + 1, r);
 
