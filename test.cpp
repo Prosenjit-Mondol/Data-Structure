@@ -1,60 +1,58 @@
 #include <iostream>
 #include <vector>
-#include <queue>
+#include <algorithm>
 
 using namespace std;
 
 // Function to add an edge to the graph
 void addEdge(vector<vector<int>>& adjList, int u, int v) {
     adjList[u].push_back(v);
-    adjList[v].push_back(u); // Undirected graph
+    adjList[v].push_back(u); // For undirected graph
 }
 
-// Function to perform BFS and find a target node
-bool findNode(const vector<vector<int>>& adjList, int start, int target) {
-    vector<bool> visited(adjList.size(), false); // Track visited nodes
-    queue<int> q;
+// Function to delete a node from the graph
+void deleteNode(vector<vector<int>>& adjList, int node) {
+    if (node >= adjList.size()) return; // Node out of bounds
 
-    visited[start] = true; // Mark the start node as visited
-    q.push(start);
-
-    while (!q.empty()) {
-        int current = q.front();
-        q.pop();
-
-        if (current == target) {
-            return true; // Target node found
-        }
-
-        // Explore neighbors
-        for (int neighbor : adjList[current]) {
-            if (!visited[neighbor]) {
-                visited[neighbor] = true;
-                q.push(neighbor);
-            }
-        }
+    // Remove all edges connected to the node
+    for (int neighbor : adjList[node]) {
+        adjList[neighbor].erase(remove(adjList[neighbor].begin(), adjList[neighbor].end(), node), adjList[neighbor].end());
     }
-    return false; // Target node not found
+
+    // Clear the list of the node itself
+    adjList[node].clear();
 }
 
 int main() {
-    int nodes = 5; // Example number of nodes
-    vector<vector<int>> adjList(nodes); // Adjacency list
+    int nodes = 5; // Initial graph with 5 nodes (0 to 4)
+    vector<vector<int>> adjList(nodes);
 
-    // Add edges
+    // Adding some edges
     addEdge(adjList, 0, 1);
     addEdge(adjList, 0, 2);
     addEdge(adjList, 1, 3);
     addEdge(adjList, 2, 4);
 
-    int start = 0;
-    int target = 3;
+    cout << "Graph before deleting a node:" << endl;
+    for (int i = 0; i < adjList.size(); ++i) {
+        cout << "Node " << i << ": ";
+        for (int neighbor : adjList[i]) {
+            cout << neighbor << " ";
+        }
+        cout << endl;
+    }
 
-    if (findNode(adjList, start, target)) {
-        cout << "Node " << target << " is reachable from node " << start << endl;
-    } 
-    else {
-        cout << "Node " << target << " is NOT reachable from node " << start << endl;
+    // Delete a node
+    int nodeToDelete = 1;
+    deleteNode(adjList, nodeToDelete);
+
+    cout << "\nGraph after deleting node " << nodeToDelete << ":" << endl;
+    for (int i = 0; i < adjList.size(); ++i) {
+        cout << "Node " << i << ": ";
+        for (int neighbor : adjList[i]) {
+            cout << neighbor << " ";
+        }
+        cout << endl;
     }
 
     return 0;
