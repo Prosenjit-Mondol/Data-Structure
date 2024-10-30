@@ -34,7 +34,7 @@ int main()
     cout << "Enter the number of edges: ";
     int x;
     cin >> x;
-    vector<vector<int>> adj(n);
+    vector<vector<int>> adj(n+1);
     cout << "Enter the edges (pair of vertices for each edge):" << endl;
     for (int i = 0; i < x; i++)
     {
