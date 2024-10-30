@@ -52,7 +52,8 @@ int main() {
 
     if (findNode(adjList, start, target)) {
         cout << "Node " << target << " is reachable from node " << start << endl;
-    } else {
+    } 
+    else {
         cout << "Node " << target << " is NOT reachable from node " << start << endl;
     }
 
