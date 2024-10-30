@@ -4,9 +4,10 @@ using namespace std;
 void bfs(vector<vector<int>>& adj, int st)
 {
     queue<int> q;
-    q.push(st);
+    
     vector<bool> visit(adj.size(), false);
     visit[st] = true;
+    q.push(st);
 
     while (!q.empty())
     {
@@ -14,7 +15,7 @@ void bfs(vector<vector<int>>& adj, int st)
         q.pop();
         cout << cur << " ";
 
-        for (int i : adj[st])
+        for (int i : adj[cur])
         {
             if (!visit[i])
             {
