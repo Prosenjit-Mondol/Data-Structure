@@ -1,62 +1,60 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <queue>
+
 using namespace std;
 
-const int MAX_NODES = 100;
-vector<int> adj[MAX_NODES];
-
-void insertNode(int node) {
-    if (node >= MAX_NODES) return;
-    // No action needed here since we can directly add edges
+// Function to add an edge to the graph
+void addEdge(vector<vector<int>>& adjList, int u, int v) {
+    adjList[u].push_back(v);
+    adjList[v].push_back(u); // Undirected graph
 }
 
-void insertEdge(int u, int v) {
-    adj[u].push_back(v);
-}
+// Function to perform BFS and find a target node
+bool findNode(const vector<vector<int>>& adjList, int start, int target) {
+    vector<bool> visited(adjList.size(), false); // Track visited nodes
+    queue<int> q;
 
-void deleteNode(int node) {
-    for (int i = 0; i < MAX_NODES; i++) {
-        adj[i].erase(remove(adj[i].begin(), adj[i].end(), node), adj[i].end());
-    }
-    adj[node].clear();
-}
+    visited[start] = true; // Mark the start node as visited
+    q.push(start);
 
-void deleteEdge(int u, int v) {
-    adj[u].erase(remove(adj[u].begin(), adj[u].end(), v), adj[u].end());
-}
+    while (!q.empty()) {
+        int current = q.front();
+        q.pop();
 
-void printGraph() {
-    for (int i = 0; i < MAX_NODES; i++) {
-        if (!adj[i].empty()) {
-            cout << i << " -> ";
-            for (int j : adj[i]) {
-                cout << j << " ";
+        if (current == target) {
+            return true; // Target node found
+        }
+
+        // Explore neighbors
+        for (int neighbor : adjList[current]) {
+            if (!visited[neighbor]) {
+                visited[neighbor] = true;
+                q.push(neighbor);
             }
-            cout << endl;
         }
     }
+    return false; // Target node not found
 }
 
 int main() {
-    insertNode(1);
-    insertNode(2);
-    insertNode(3);
+    int nodes = 5; // Example number of nodes
+    vector<vector<int>> adjList(nodes); // Adjacency list
 
-    insertEdge(1, 2);
-    insertEdge(2, 3);
-    insertEdge(1, 3);
+    // Add edges
+    addEdge(adjList, 0, 1);
+    addEdge(adjList, 0, 2);
+    addEdge(adjList, 1, 3);
+    addEdge(adjList, 2, 4);
 
-    cout << "Graph connections:\n";
-    printGraph();
+    int start = 0;
+    int target = 3;
 
-    deleteEdge(1, 3);
-    cout << "\nAfter deleting edge (1, 3):\n";
-    printGraph();
-
-    deleteNode(2);
-    cout << "\nAfter deleting node 2:\n";
-    printGraph();
+    if (findNode(adjList, start, target)) {
+        cout << "Node " << target << " is reachable from node " << start << endl;
+    } else {
+        cout << "Node " << target << " is NOT reachable from node " << start << endl;
+    }
 
     return 0;
 }
