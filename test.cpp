@@ -1,14 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+
 string postfix(string s)
 {
-   
-    string p;
     stack<char> st;
+    string p;
     st.push('(');
-     s.push_back(')');
-
+    s.push_back(')');
     for (int i = 0; i < s.size(); i++)
     {
         if (s[i] == ' ')
@@ -68,71 +67,20 @@ string postfix(string s)
             }
         }
     }
-
     return p;
 }
 
-void posttovalue(string s)
-{
-    stack<int>st;
-    for (int i = 0; i < s.size(); i++)
-    {
-        if (s[i]==' ')
-        {
-            continue;
-        }
-        else if (s[i]>=48&&s[i]<=57)
-        {
-            string ss;
-            ss.push_back(s[i]);
-            while (s[i+1]>=48&&s[i+1]<=57)
-            {
-                ss.push_back(s[i+1]);
-                i++;
-            }
-            int x=stoi(ss);
-            st.push(x);
-        }
-        else
-        {
-            int f=st.top();
-            st.pop();
-            int l=st.top();
-            st.pop();
-
-            int r;
-            if (s[i]=='+')
-            {
-                r=l+f;
-            }
-            if (s[i]=='-')
-            {
-                r=l-f;
-            }
-            if (s[i]=='*')
-            {
-                r=l*f;
-            }
-            if (s[i]=='/')
-            {
-                r=l/f;
-            }
-            st.push(r);
-        }
-        
-    }
-    cout<<st.top()<<'\n';
-}
 
 int main()
 {
+
     string s;
+
     getline(cin, s);
+
     string p = postfix(s);
 
     cout << p << "\n";
-
-    posttovalue(p);
 
     return 0;
 }
