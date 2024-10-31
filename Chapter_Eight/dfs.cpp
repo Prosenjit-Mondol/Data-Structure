@@ -41,7 +41,7 @@ int main()
         adj[a].push_back(b);
         adj[b].push_back(a);
     }
-    cout<<"BFS starting node 0\n";
+    cout<<"DFS starting node 0\n";
     dfs(adj,0);
     return 0;
 }
