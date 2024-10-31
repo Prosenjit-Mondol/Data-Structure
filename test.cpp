@@ -1,86 +1,75 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
-string postfix(string s)
+int partition(int v[], int s, int e)
 {
-    stack<char> st;
-    string p;
-    st.push('(');
-    s.push_back(')');
-    for (int i = 0; i < s.size(); i++)
+    int pivot = v[s];
+    int c = 0;
+    for (int i = s + 1; i <= e; i++)
     {
-        if (s[i] == ' ')
+        if (v[i] <= pivot)
         {
-            p.push_back(' ');
-        }
-        else
-        {
-            if (s[i] >= 48 && s[i] <= 57)
-            {
-                p.push_back(s[i]);
-                while (s[i + 1] >= 48 && s[i + 1] <= 57)
-                {
-                    p.push_back(s[i + 1]);
-                    i++;
-                }
-            }
-            else if (s[i] == '(')
-            {
-                st.push('(');
-            }
-            else if (s[i] == ')')
-            {
-                while (st.top() != '(')
-                {
-                    p.push_back(st.top());
-                    p.push_back(' ');
-                    st.pop();
-                }
-                st.pop();
-            }
-            else
-            {
-                if (st.top() == '(' || s[i] == '^')
-                {
-                    st.push(s[i]);
-                }
-                else if (s[i] == '+' || s[i] == '-')
-                {
-                    p.push_back(st.top());
-                    st.pop();
-                    st.push(s[i]);
-                }
-                else
-                {
-                    if (st.top() == '+' || st.top() == '-')
-                    {
-                        st.push(s[i]);
-                    }
-                    else if (st.top() == '^' || st.top() == '*' || st.top() == '/')
-                    {
-                        p.push_back(st.top());
-                        st.pop();
-                        st.push(s[i]);
-                    }
-                }
-            }
+            c++;
         }
     }
-    return p;
+
+    int pivotI = s + c;
+
+    swap(v[s], v[pivotI]);
+
+    int i = s, j = e;
+    
+    while (i < pivotI && j > pivotI)
+    {
+        while (v[i] <= pivot)
+        {
+            i++;
+        }
+
+        while (v[j] > pivot)
+        {
+            j--;
+        }
+
+        if (i < pivotI && j > pivotI)
+        {
+            swap(v[i++], v[j--]);
+        }
+    }
+
+    return pivotI;
 }
 
+void quickSort(int arr[], int s, int e)
+{
+    if (s >= e)
+    {
+        return;
+    }
+    int p = partition(arr, s, e);
+
+    quickSort(arr, s, p - 1);
+
+    quickSort(arr, p + 1, e);
+
+}
 
 int main()
 {
 
-    string s;
+    int n;
+    cin >> n;
+    int v[n];
+    for (int i = 0; i < n; i++)
+    {
+        cin >> v[i];
+    }
+    quickSort(v, 0, n - 1);
 
-    getline(cin, s);
-
-    string p = postfix(s);
-
-    cout << p << "\n";
+    for (auto element : v)
+    {
+        cout << element << " ";
+    }
 
     return 0;
 }
