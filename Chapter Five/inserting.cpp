@@ -10,7 +10,7 @@ struct node
 node* head=nullptr;
 
 void display(){
-    for (node* i = head; i: i=i->next)
+    for (node* i = head; i; i=i->next)
     {
         cout<<i->data<<(i->next ? " -> ": "\n");
     }
@@ -25,5 +25,63 @@ void insertstart(string val)
 void insertend(string val)
 {
     node* newnode=new node(val);
+    if (!head)
+    {
+        head=newnode;
+        return;
+    }
+    node* temp=head;
+    while (temp->next)
+    {
+        temp=temp->next;
+    }
+    temp->next=newnode;
+}
+
+void insertafter(string val,int pos)
+{
+    node* temp=head;
+    for (int i = 1; i < pos && temp ; i++)
+    {
+        temp=temp->next;
+    }
+    if (temp)
+    {
+        node* newnode=new node(val);
+        newnode->next=temp->next;
+        temp->next=newnode;
+    }
     
+}
+
+int main()
+{
+    cout<<"Enter the number of data : ";
+    int n;
+    cin>>n;
+    cout<<"Enter the string :\n";
+    for (int i = 0; i < n; i++)
+    {
+        string s;
+        cin>>s;
+        insertend(s);
+    }
+    display();
+    cout<<"Enter string for adding last position: ";
+    string p;
+    cin>>p;
+    insertend(p);
+    display();
+    cout<<"Enter a string for adding first position : ";
+    cin>>p;
+    insertstart(p);
+    display();
+    cout<<"Enter a string and position for adding this place: ";
+    int x;
+    cin>>p;
+    cin>>x;
+    insertafter(p,x);
+    display();
+
+    return 0;
 }
