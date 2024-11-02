@@ -68,7 +68,7 @@ void deletenth(int pos){
         return;
     }
     node* temp=head;
-    for (int  i = 0; i <pos && temp ; i++)
+    for (int  i = 1; i <pos-1 && temp ; i++)
     {
         temp=temp->next;
     }
