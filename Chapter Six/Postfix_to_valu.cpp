@@ -1,60 +1,47 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-void posttovalue(string s)
-{
+void posttovalue(string s) {
     stack<int> sp;
-    for (int i = 0; i < s.size(); i++)
-    {
-        if (s[i]==' ')
-        {
-            continue;
-        }
-        else if (s[i] >= 48 && s[i] <= 57)
-        {
-            string a;
-            a.push_back(s[i]);
-            while (s[i + 1] >= 48 && s[i + 1] <= 57)
-            {
-                a.push_back(s[i + 1]);
-                i++;
-            }
-            int x=stoi(a);
-            sp.push(x);
-        }
+    
+    for (int i = 0; i < s.size(); i++) {
+        if (s[i] == ' ') continue;
         
-        else
-        {
-            int f=sp.top();
-            sp.pop();
-            int l=sp.top();
-            sp.pop();
-            int r;
-            if (s[i]=='+')
-            {
-                r=l+f;
+        if (isdigit(s[i])) {
+            string num;
+            num.push_back(s[i]);
+            while (i + 1 < s.size() && isdigit(s[i + 1])) {
+                i++;
+                num.push_back(s[i]);
             }
-            if (s[i]=='-')
-            {
-                r=l-f;
-            }
-            if (s[i]=='*')
-            {
-                r=l*f;
-            }
-            if (s[i]=='/')
-            {
-                r=l/f;
-            }
-            sp.push(r);
+            sp.push(stoi(num));
         }
-        //cout<<sp.top()<<" ";
+        else {
+            int b = sp.top(); sp.pop();
+            int a = sp.top(); sp.pop();
+            int result = 0;
+            
+            if (s[i] == '+') result = a + b;
+            if (s[i] == '-') result = a - b;
+            if (s[i] == '*') result = a * b;
+            if (s[i] == '/') result = a / b;
+            if (s[i] == '^') result = pow(a, b);  // Handle exponentiation
+
+            sp.push(result);
+        }
     }
-    cout<<sp.top()<<'\n';
+    cout << "Result: " << sp.top() << '\n';
 }
 
 int main(){
+
+    cout<<"Enter the expression: ";
+
     string s;
+
     getline(cin, s);
+
     posttovalue(s);
+
+    return 0;
 }

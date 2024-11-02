@@ -27,6 +27,7 @@ string postfix(string s)
                     p.push_back(s[i + 1]);
                     i++;
                 }
+                
             }
             else if (s[i] == '(')
             {
@@ -130,6 +131,8 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
+    cout<<"Enter an infix expression : ";
+    
     string s;
     getline(cin, s);
     string p = postfix(s);
