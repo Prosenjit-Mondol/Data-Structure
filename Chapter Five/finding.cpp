@@ -7,6 +7,7 @@ struct node
     node* next;
     node(int val) : data(val),next(nullptr){}
 };
+
 node* head=nullptr;
 void insertend(int val)
 {
@@ -46,7 +47,6 @@ void display()
         temp=temp->next;
     }
 }
-
 int main()
 {
     cout<<"Enter the number of data: ";
@@ -71,8 +71,6 @@ int main()
     {
         cout << "Node with value " << p << " not found in the list.\n";
     }
-    
-
 
     return 0;
 }

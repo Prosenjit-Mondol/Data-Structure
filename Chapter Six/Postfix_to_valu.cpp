@@ -10,7 +10,7 @@ void posttovalue(string s) {
         if (isdigit(s[i])) {
             string num;
             num.push_back(s[i]);
-            while (i + 1 < s.size() && isdigit(s[i + 1])) {
+            while (isdigit(s[i + 1])) {
                 i++;
                 num.push_back(s[i]);
             }

@@ -7,6 +7,7 @@ struct node
     node* next;
     node(string val) : data(val),next(nullptr) {}
 };
+
 node* head=nullptr;
 
 void display(){

@@ -1,74 +1,68 @@
-// Author  :  PROSENJIT MONDOL
-
 #include <bits/stdc++.h>
 using namespace std;
 
-//------------------------------------------------------------------------------
-
-string postfix(string s)
+int precedence(char op)
 {
-    stack<char> st;
+    if (op == '^')
+        return 3;
+    if (op == '*' || op == '/')
+        return 2;
+    if (op == '+' || op == '-')
+        return 1;
+    return 0;
+}
+bool hasHigherPrecedence(char top, char current)
+{
+    if (precedence(top) > precedence(current))
+        return true;
+    if (precedence(top) == precedence(current) && current != '^')
+        return true; // left associative
+    return false;
+}
+string intopost(string s)
+{
     string p;
-    st.push('(');
+    stack<char> st;
     s.push_back(')');
+    st.push('(');
+
     for (int i = 0; i < s.size(); i++)
     {
         if (s[i] == ' ')
+            continue;
+        if (isdigit(s[i]))
         {
+            p.push_back(s[i]);
+            while (isdigit(s[i + 1]))
+            {
+                i++;
+                p.push_back(s[i]);
+            }
             p.push_back(' ');
+        }
+        else if (s[i] == '(')
+        {
+            st.push('(');
+        }
+        else if (s[i] == ')')
+        {
+            while (st.top() == '(')
+            {
+                p.push_back(st.top());
+                p.push_back(' ');
+                st.pop();
+            }
+            st.pop();
         }
         else
         {
-            if (s[i] >= 48 && s[i] <= 57)
+            while (st.top() != '(' && hasHigherPrecedence(st.top(), s[i]))
             {
-                p.push_back(s[i]);
-                while (s[i + 1] >= 48 && s[i + 1] <= 57)
-                {
-                    p.push_back(s[i + 1]);
-                    i++;
-                }
-                
-            }
-            else if (s[i] == '(')
-            {
-                st.push('(');
-            }
-            else if (s[i] == ')')
-            {
-                while (st.top() != '(')
-                {
-                    p.push_back(st.top());
-                    p.push_back(' ');
-                    st.pop();
-                }
+                p.push_back(st.top());
+                p.push_back(' ');
                 st.pop();
             }
-            else
-            {
-                if (st.top() == '(' || s[i] == '^')
-                {
-                    st.push(s[i]);
-                }
-                else if (s[i] == '+' || s[i] == '-')
-                {
-                    p.push_back(st.top());
-                    st.pop();
-                    st.push(s[i]);
-                }
-                else
-                {
-                    if (st.top() == '+' || st.top() == '-')
-                    {
-                        st.push(s[i]);
-                    }
-                    else if (st.top() == '^' || st.top() == '*' || st.top() == '/')
-                    {
-                        p.push_back(st.top());
-                        st.pop();
-                        st.push(s[i]);
-                    }
-                }
-            }
+            st.push(s[i]);
         }
     }
     return p;
@@ -76,67 +70,55 @@ string postfix(string s)
 
 void posttovalue(string s)
 {
-    stack<int> sp;
+    stack<int> st;
     for (int i = 0; i < s.size(); i++)
     {
-        if (s[i]==' ')
-        {
+        if (s[i] == ' ')
             continue;
-        }
-        else if (s[i] >= 48 && s[i] <= 57)
+        if (isdigit(s[i]))
         {
-            string a;
-            a.push_back(s[i]);
-            while (s[i + 1] >= 48 && s[i + 1] <= 57)
+            string num;
+            num.push_back(s[i]);
+            while (isdigit(s[i + 1]))
             {
-                a.push_back(s[i + 1]);
                 i++;
+                num.push_back(s[i]);
             }
-            int x=stoi(a);
-            sp.push(x);
+            st.push(stoi(num));
         }
-        
         else
         {
-            int f=sp.top();
-            sp.pop();
-            int l=sp.top();
-            sp.pop();
-            int r;
-            if (s[i]=='+')
-            {
-                r=l+f;
-            }
-            if (s[i]=='-')
-            {
-                r=l-f;
-            }
-            if (s[i]=='*')
-            {
-                r=l*f;
-            }
-            if (s[i]=='/')
-            {
-                r=l/f;
-            }
-            sp.push(r);
+            int b = st.top();
+            st.pop();
+            int a = st.top();
+            st.pop();
+            int r = 0;
+            if (s[i] == '+')
+                r = a + b;
+            if (s[i] == '-')
+                r = a - b;
+            if (s[i] == '*')
+                r = a * b;
+            if (s[i] == '/')
+                r = a / b;
+            if (s[i] == '^')
+                r = pow(a, b);
+
+            st.push(r);
         }
-        
     }
-    cout<<sp.top()<<'\n';
+    cout << st.top() << '\n';
 }
-//------------------------------------------------------------------------------
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    cout<<"Enter an infix expression : ";
-    
+    cout << "Enter the expression: ";
     string s;
     getline(cin, s);
-    string p = postfix(s);
-    cout << p << "\n";
+
+    string p = intopost(s);
+    cout << "The postfix expression is : " << p << '\n';
+
+    cout << "The value of this expression is : ";
     posttovalue(p);
 
     return 0;
