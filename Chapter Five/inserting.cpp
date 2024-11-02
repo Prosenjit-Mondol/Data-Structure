@@ -52,7 +52,6 @@ void insertafter(string val,int pos)
         newnode->next=temp->next;
         temp->next=newnode;
     }
-    
 }
 
 int main()
