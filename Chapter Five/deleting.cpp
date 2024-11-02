@@ -52,15 +52,35 @@ void deleteend()
         head=nullptr;
         return;
     }
-    node* tem=head;
-    while (tem->next)
+    node* temp=head;
+    while (temp->next->next)
     {
-        tem=tem->next;
+        temp=temp->next;
     }
-    delete tem->next;
-    tem->next=nullptr;
+    delete temp->next;
+    temp->next=nullptr;
     
 }
+void deletenth(int pos){
+    if (pos==1)
+    {
+        deletestart();
+        return;
+    }
+    node* temp=head;
+    for (int  i = 0; i <pos && temp ; i++)
+    {
+        temp=temp->next;
+    }
+    if (temp && temp->next)
+    {
+        node* todelete=temp->next;
+        temp->next=temp->next->next;
+        delete todelete;
+    }
+    
+}
+
 int main()
 
 {
@@ -80,6 +100,12 @@ int main()
     cout<<"Delete after Last node: ";
     deleteend();
     display();
+    cout<<"Enter the position of the deleting node: ";
+    int x;
+    cin>>x;
+    deletenth(x);
+    display();
+
 
     return 0;
 }
