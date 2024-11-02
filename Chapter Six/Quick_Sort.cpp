@@ -1,14 +1,9 @@
 // Author  :  PROSENJIT MONDOL
 
 #include <bits/stdc++.h>
-#define lower(s) transform(s.begin(), s.end(), s.begin(), ::tolower);
-#define upper(s) transform(s.begin(), s.end(), s.begin(), ::toupper);
 using namespace std;
-const int inf = 3e5;
-using ll = long long;
-ll mod = 1e9 + 7;
 
-//------------------------------------------------------------------------------
+
 int partition(int v[], int s, int e)
 {
     int pivot = v[s];
@@ -48,21 +43,34 @@ int partition(int v[], int s, int e)
     return pivotI;
 }
 
-void quickSort(int arr[], int s, int e)
+
+void quickSort(int arr[], int low ,int high)
 {
-    if (s >= e)
+    stack<pair<int,int>> s;
+    s.push({low,high});
+
+    while (!s.empty())
     {
-        return;
+        int l=s.top().first;
+        int h=s.top().second;
+
+        s.pop();
+        int p=partition(arr,low ,high);
+         if (p-1>l)
+         {
+            s.push({l,p-1});
+         }
+         if (p+1<h)
+         {
+            s.push({p+1,high});
+         }
+         
     }
-    int p = partition(arr, s, e);
-
-    quickSort(arr, s, p - 1);
-
-    quickSort(arr, p + 1, e);
+    
 
 }
 
-void solve(void)
+int main()
 {
     int n;
     cin >> n;
@@ -71,25 +79,12 @@ void solve(void)
     {
         cin >> v[i];
     }
-    quickSort(v, 0, n - 1);
+    quickSort(v, 0, n-1);
 
     for (auto element : v)
     {
         cout << element << " ";
     }
-}
 
-//------------------------------------------------------------------------------
-int main()
-{
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    ll t = 1;
-    // cin>>t;
-    while (t--)
-    {
-        solve();
-    }
     return 0;
 }
