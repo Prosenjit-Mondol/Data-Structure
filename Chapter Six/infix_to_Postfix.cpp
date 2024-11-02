@@ -46,7 +46,7 @@ string intopost(string s)
         }
         else if (s[i] == ')')
         {
-            while (st.top() == '(')
+            while (st.top() != '(')
             {
                 p.push_back(st.top());
                 p.push_back(' ');
@@ -54,10 +54,8 @@ string intopost(string s)
             }
             st.pop();
         }
-        else
-        {
-            while (st.top() != '(' && hasHigherPrecedence(st.top(), s[i]))
-            {
+        else {
+            while (st.top() != '(' && hasHigherPrecedence(st.top(), s[i])) {
                 p.push_back(st.top());
                 p.push_back(' ');
                 st.pop();
@@ -78,12 +76,12 @@ void posttovalue(string s)
         if (isdigit(s[i]))
         {
             string num;
-            num.push_back(s[i]);
-            while (isdigit(s[i + 1]))
+            while (i<s.size() && isdigit(s[i]))
             {
-                i++;
                 num.push_back(s[i]);
+                i++;
             }
+            i--;
             st.push(stoi(num));
         }
         else
@@ -123,3 +121,5 @@ int main()
 
     return 0;
 }
+
+// 2 ^ 3 + 5 * 2 ^ 2 - 12 / 6
