@@ -77,7 +77,6 @@ int main() {
     // Insert initial nodes
     insertEnd(20);
     insertEnd(30);
-
     // Insertion operations
     insertStart(10);   // List: 10 -> 20 -> 30
     cout << "After inserting start: "; 

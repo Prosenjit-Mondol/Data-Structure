@@ -1,37 +1,42 @@
-#include <iostream>
+#include<bits/stdc++.h>
 using namespace std;
 
-struct Node {
-    int data;
-    Node* link;
-    Node(int data) {
-        this->data = data;
-        link = NULL;
-    }
+struct node
+{
+    int data ;
+    node* next;
+    node(int val) : data(val), next(nullptr){}
 };
+node* head=nullptr;
 
-class LinkedList {
-private:
-    Node *start;
-public:
-    LinkedList() {
-        start = NULL;
+void insertstart(int val)
+{
+    node* newnode=new node(val);
+    newnode->next =head;
+    head=newnode;
+}
+void display()
+{
+    for (node* i = head; i; i=i->next)
+    {
+        cout<<i->data<<(i->next ? "-> " : "\n");
     }
-    void printAll() {
-        if (start == NULL) {
-            cout << "List is empty!\n";
-            return;
-        }
-        Node *temp = start;
-        while (temp != NULL) {
-            cout << temp->data << " ";
-            temp = temp->link;
-        }
-        cout << endl;
+    
+}
+int main()
+{
+    cout<<"Enter the number of data : ";
+    int n;
+    cin>>n;
+    cout<<"Enter the data:\n";
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin>>x;
+        insertstart(x);
     }
-};
+    
+    display();
 
-int main() {
-    LinkedList list;
-    list.printAll();
+    return 0;
 }
