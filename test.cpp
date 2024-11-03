@@ -11,7 +11,7 @@ void display()
 {
     for (node* i = head; i; i=i->next)
     {
-        cout<<i->data<<(i->next ? " -> " : '\n');
+        cout<<i->data<<(i->next ? " -> " : "\n");
     }    
 }
 void insertend(int val)
@@ -28,6 +28,24 @@ void insertend(int val)
         temp=temp->next;
     }
     temp->next=newnode;
+}
+void insertfirst(int val)
+{
+    node* newnode=new node(val);
+    newnode->next=head;
+    head=newnode;
+}
+void insertnth(int val,int pos)
+{
+    node* temp=head;
+    for (int i = 1; i < pos && temp; i++) temp=temp->next;
+    if (temp)
+    {
+        node* newnode=new node(val);
+        newnode->next = temp->next;
+        temp->next=newnode;
+    }
+    
 }
 int main()
 {
@@ -48,7 +66,7 @@ int main()
     insertend(x);
     display();
 
-    coutt<<"Enter the data for adding first: ";
+    cout<<"Enter the data for adding first: ";
     cin>>x;
     insertfirst(x);
     display();
@@ -61,4 +79,11 @@ int main()
     insertnth(x,p);
     display();
 
+    deletefirst();
+    display();
+
+    deleteend();
+    display();
+
+    
 }

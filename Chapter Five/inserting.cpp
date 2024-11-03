@@ -42,7 +42,7 @@ void insertend(string val)
 void insertafter(string val,int pos)
 {
     node* temp=head;
-    for (int i = 1; i < pos && temp ; i++)
+    for (int i = 1; i < pos-1 && temp ; i++)
     {
         temp=temp->next;
     }
@@ -67,20 +67,22 @@ int main()
         insertend(s);
     }
     display();
-    cout<<"Enter string for adding last position: ";
-    string p;
-    cin>>p;
-    insertend(p);
-    display();
-    cout<<"Enter a string for adding first position : ";
-    cin>>p;
-    insertstart(p);
-    display();
+    // cout<<"Enter string for adding last position: ";
+    // string p;
+    // cin>>p;
+    // insertend(p);
+    // display();
+    // cout<<"Enter a string for adding first position : ";
+    // cin>>p;
+    // insertstart(p);
+    // display();
     cout<<"Enter a string and position for adding this place: ";
-    int x;
-    cin>>p;
+    string x;
     cin>>x;
-    insertafter(p,x);
+    cout<<"Enter the position: ";
+    int p;
+    cin>>p;
+    insertafter(x,p);
     display();
 
     return 0;
