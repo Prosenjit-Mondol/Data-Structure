@@ -67,22 +67,22 @@ int main()
         insertend(s);
     }
     display();
-    // cout<<"Enter string for adding last position: ";
-    // string p;
-    // cin>>p;
-    // insertend(p);
-    // display();
-    // cout<<"Enter a string for adding first position : ";
-    // cin>>p;
-    // insertstart(p);
-    // display();
+    cout<<"Enter string for adding last position: ";
+    string p;
+    cin>>p;
+    insertend(p);
+    display();
+    cout<<"Enter a string for adding first position : ";
+    cin>>p;
+    insertstart(p);
+    display();
     cout<<"Enter a string and position for adding this place: ";
     string x;
     cin>>x;
     cout<<"Enter the position: ";
-    int p;
-    cin>>p;
-    insertafter(x,p);
+    int po;
+    cin>>po;
+    insertafter(x,po);
     display();
 
     return 0;
