@@ -1,138 +1,110 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct node
+string infix(string s)
 {
-    int data;
-    node* next;
-    node(int val) : data(val),next(nullptr){}
-};
-node* head=nullptr;
-void insertend(int val)
-{
-    node* newnode=new node(val);
-    if (!head)
+    string p;
+    s.push_back(')');
+    stack<char> st;
+    st.push('(');
+
+    for (int i = 0; i < s.size(); i++)
     {
-        head=newnode;
-        return;
-    }
-    node* temp=head;
-    while (temp->next)
-    {
-        temp=temp->next;
-    }
-    temp->next=newnode;
-}
-void insertfirst(int val)
-{
-    node* newnode=new node(val);
-    newnode->next=head;
-    head=newnode;
-}
-void insertnth(int val,int pos)
-{
-    node* newnode=new node(val);
-    node* temp=head;
-    for (int i = 1; i < pos && temp; i++)
-    {
-        temp=temp->next;
-    }
-    if (temp)
-    {
-        newnode->next=temp->next->next;
-        temp->next=newnode;
-    }
-    
-}
-void display()
-{
-    for (node* i = head; i; i=i->next)
-    {
-        cout<<i->data<<(i->next ? "->" : "\n");
-    }
-    cout<<'\n';
-}
-void finding_n(int val)
-{
-    for (node* i = head; i ; i=i->next)
-    {
-        if (i->data==val)
+        if (s[i] == ' ')
+            continue;
+        else if (s[i] == '(')
+            st.push('(');
+        else if (isdigit(s[i]))
         {
-            cout<<"The node is finding "<<'\n';
-            return;
+            p.push_back(s[i]);
+            while (isdigit(s[i + 1]))
+            {
+                i++;
+                p.push_back(s[i]);
+            }
+            p.push_back(' ');
         }
-        
+        else if (s[i] == ')')
+        {
+            while (st.top() != '(')
+            {
+                p.push_back(st.top());
+                st.pop();
+                p.push_back(' ');
+            }
+            st.pop();
+        }
+        else
+        {
+            if (st.top() == '(' || s[i] == '^')
+                st.push(s[i]);
+            else if (s[i] == '+' || s[i] == '-')
+            {
+                p.push_back(st.top());
+                st.pop();
+                st.push(s[i]);
+            }
+            else
+            {
+                if (st.top() == '+' || st.top() == '-')
+                {
+                    st.push(s[i]);
+                }
+                else if (st.top() == '^' || st.top() == '*' || st.top() == '/')
+                {
+                    p.push_back(st.top());
+                    st.pop();
+                    st.push(s[i]);
+                }
+            }
+        }
     }
-    cout<<"The node is not found."<<'\n';
+    return p;
 }
-void deletfirst()
+void postfix(string s)
 {
-    node* temp=head;
-    head=temp->next;
-    delete temp;
-}
-void deletlast(){
-    node* temp=head;
-    while (temp->next->next)
+    stack<int> st;
+    for (int i = 0; i < s.size(); i++)
     {
-        temp=temp->next;
+        if (s[i] == ' ')
+            continue;
+        if (isdigit(s[i]))
+        {
+            string d;
+            d.push_back(s[i]);
+            while (isdigit(s[i + 1]))
+            {
+                i++;
+                d.push_back(s[i]);
+            }
+            st.push(stoi(d));
+        }
+        else
+        {
+            int b = st.top();
+            st.pop();
+            int a = st.top();
+            st.pop();
+            int r = 0;
+            if (s[i] == '+')
+                r = a + b;
+            if (s[i] == '-')
+                r = a - b;
+            if (s[i] == '*')
+                r = a * b;
+            if (s[i] == '/')
+                r = a / b;
+            st.push(r);
+        }
     }
-    delete temp->next;
-    temp->next=nullptr;
-}
-void deletnth(int p)
-{
-    if (p==1)
-    {
-        deletfirst();
-        return;
-    }
-    node* temp=head;
-    for (int i = 1; i < p-1 && temp; i++)
-    {
-        node* todel=temp->next;
-        temp->next=temp->next->next;
-        delete todel;
-    }
-    
+    cout << st.top() << '\n';
 }
 int main()
 {
-    cout<<"Enter the number of node: ";
-    int n;
-    cin>>n;
-    for (int i = 0; i < n; i++)
-    {
-        int a;
-        cin>>a;
-        insertend(a);
-    }
-    display();
-    cout<<"Enter the data for inserting in the first: ";
-    int x;
-    cin>>x;
-    insertfirst(x);
-    display();
-    cout<<"Enter the data for inserting in the nth: ";
-    cin>>x;
-    cout<<"Enter the position: ";
-    int pos;
-    cin>>pos;
-    insertnth(x,pos-1);
-    display();
-    cout<<"Enter node for finding: ";
-    int f;
-    cin>>f;
-    finding_n(f);
-    cout<<"After deletinf the first node: ";
-    deletfirst();
-    display();
-    cout<<"Deleting the last node: ";
-    deletlast();
-    display();
-    cout<<"Enter the position for deleting node: ";
-    cin>>f;
-    deletnth(f);
-    display();
-
+    cout << "Enter a infix expression: ";
+    string s;
+    getline(cin, s);
+    string p = infix(s);
+    cout<<p<<'\n';
+    postfix(p);
 }

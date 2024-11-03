@@ -1,36 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int precedence(char op)
-{
-    if (op == '^')
-        return 3;
-    if (op == '*' || op == '/')
-        return 2;
-    if (op == '+' || op == '-')
-        return 1;
-    return 0;
-}
-bool hasHigherPrecedence(char top, char current)
-{
-    if (precedence(top) > precedence(current))
-        return true;
-    if (precedence(top) == precedence(current) && current != '^')
-        return true; // left associative
-    return false;
-}
-string intopost(string s)
+string infix(string s)
 {
     string p;
-    stack<char> st;
     s.push_back(')');
+    stack<char> st;
     st.push('(');
 
     for (int i = 0; i < s.size(); i++)
     {
         if (s[i] == ' ')
             continue;
-        if (isdigit(s[i]))
+        else if (s[i] == '(')
+            st.push('(');
+        else if (isdigit(s[i]))
         {
             p.push_back(s[i]);
             while (isdigit(s[i + 1]))
@@ -40,33 +24,44 @@ string intopost(string s)
             }
             p.push_back(' ');
         }
-        else if (s[i] == '(')
-        {
-            st.push('(');
-        }
         else if (s[i] == ')')
         {
             while (st.top() != '(')
             {
                 p.push_back(st.top());
-                p.push_back(' ');
                 st.pop();
+                p.push_back(' ');
             }
             st.pop();
         }
-        else {
-            while (st.top() != '(' && hasHigherPrecedence(st.top(), s[i])) {
+        else
+        {
+            if (st.top() == '(' || s[i] == '^')
+                st.push(s[i]);
+            else if (s[i] == '+' || s[i] == '-')
+            {
                 p.push_back(st.top());
-                p.push_back(' ');
                 st.pop();
+                st.push(s[i]);
             }
-            st.push(s[i]);
+            else
+            {
+                if (st.top() == '+' || st.top() == '-')
+                {
+                    st.push(s[i]);
+                }
+                else if (st.top() == '^' || st.top() == '*' || st.top() == '/')
+                {
+                    p.push_back(st.top());
+                    st.pop();
+                    st.push(s[i]);
+                }
+            }
         }
     }
     return p;
 }
-
-void posttovalue(string s)
+void postfix(string s)
 {
     stack<int> st;
     for (int i = 0; i < s.size(); i++)
@@ -75,14 +70,14 @@ void posttovalue(string s)
             continue;
         if (isdigit(s[i]))
         {
-            string num;
-            while (i<s.size() && isdigit(s[i]))
+            string d;
+            d.push_back(s[i]);
+            while (isdigit(s[i + 1]))
             {
-                num.push_back(s[i]);
                 i++;
+                d.push_back(s[i]);
             }
-            i--;
-            st.push(stoi(num));
+            st.push(stoi(d));
         }
         else
         {
@@ -99,9 +94,6 @@ void posttovalue(string s)
                 r = a * b;
             if (s[i] == '/')
                 r = a / b;
-            if (s[i] == '^')
-                r = pow(a, b);
-
             st.push(r);
         }
     }
@@ -109,17 +101,10 @@ void posttovalue(string s)
 }
 int main()
 {
-    cout << "Enter the expression: ";
+    cout << "Enter a infix expression: ";
     string s;
     getline(cin, s);
-
-    string p = intopost(s);
-    cout << "The postfix expression is : " << p << '\n';
-
-    cout << "The value of this expression is : ";
-    posttovalue(p);
-
-    return 0;
+    string p = infix(s);
+    cout<<p<<'\n';
+    postfix(p);
 }
-
-// 2 ^ 3 + 5 * 2 ^ 2 - 12 / 6
