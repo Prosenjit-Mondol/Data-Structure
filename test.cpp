@@ -1,110 +1,44 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-string infix(string s)
-{
-    string p;
-    s.push_back(')');
-    stack<char> st;
-    st.push('(');
+void dfsre(vector<vector<int>>& adj ,vector<bool>& visit,int s){
+    visit[s]=true;
+    cout<<s<<" ";
 
-    for (int i = 0; i < s.size(); i++)
+    for (int  i : adj[s])
     {
-        if (s[i] == ' ')
-            continue;
-        else if (s[i] == '(')
-            st.push('(');
-        else if (isdigit(s[i]))
-        {
-            p.push_back(s[i]);
-            while (isdigit(s[i + 1]))
-            {
-                i++;
-                p.push_back(s[i]);
-            }
-            p.push_back(' ');
-        }
-        else if (s[i] == ')')
-        {
-            while (st.top() != '(')
-            {
-                p.push_back(st.top());
-                st.pop();
-                p.push_back(' ');
-            }
-            st.pop();
-        }
-        else
-        {
-            if (st.top() == '(' || s[i] == '^')
-                st.push(s[i]);
-            else if (s[i] == '+' || s[i] == '-')
-            {
-                p.push_back(st.top());
-                st.pop();
-                st.push(s[i]);
-            }
-            else
-            {
-                if (st.top() == '+' || st.top() == '-')
-                {
-                    st.push(s[i]);
-                }
-                else if (st.top() == '^' || st.top() == '*' || st.top() == '/')
-                {
-                    p.push_back(st.top());
-                    st.pop();
-                    st.push(s[i]);
-                }
-            }
+        if(!visit[i]){
+            dfsre(adj,visit,i);
         }
     }
-    return p;
+    
 }
-void postfix(string s)
+void dfs(vector<vector<int>>& adj,int s)
 {
-    stack<int> st;
-    for (int i = 0; i < s.size(); i++)
-    {
-        if (s[i] == ' ')
-            continue;
-        if (isdigit(s[i]))
-        {
-            string d;
-            d.push_back(s[i]);
-            while (isdigit(s[i + 1]))
-            {
-                i++;
-                d.push_back(s[i]);
-            }
-            st.push(stoi(d));
-        }
-        else
-        {
-            int b = st.top();
-            st.pop();
-            int a = st.top();
-            st.pop();
-            int r = 0;
-            if (s[i] == '+')
-                r = a + b;
-            if (s[i] == '-')
-                r = a - b;
-            if (s[i] == '*')
-                r = a * b;
-            if (s[i] == '/')
-                r = a / b;
-            st.push(r);
-        }
-    }
-    cout << st.top() << '\n';
+    vector<bool>visit(adj.size(),false);
+    dfsre(adj,visit,s);
 }
+
 int main()
 {
-    cout << "Enter a infix expression: ";
-    string s;
-    getline(cin, s);
-    string p = infix(s);
-    cout<<p<<'\n';
-    postfix(p);
+    cout << "Enter the number of vertices: ";
+    int n;
+    cin>>n;
+    cout << "Enter the number of edges: ";
+    int x;
+    cin >> x;
+    vector<vector<int>> adj(n);
+
+    cout << "Enter the edges (pair of vertices for each edge):" << endl;
+
+    for (int i = 0; i <x; i++)
+    {
+        int a,b;
+        cin>>a>>b;
+        adj[a].push_back(b);
+        adj[b].push_back(a);
+    }
+    cout<<"DFS starting node: ";
+    dfs(adj,0);
+    return 0;
 }

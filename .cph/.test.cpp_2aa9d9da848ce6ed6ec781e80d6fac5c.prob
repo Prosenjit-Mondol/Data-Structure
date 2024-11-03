@@ -1,1 +1,1 @@
-{"name":"Local: test","url":"d:\\Data-Structure\\test.cpp","tests":[{"id":1730645662310,"input":"12 + 5 * ( 2 + 3 ) - 12 / 3","output":"12 5 2 3 + * 12 3 / - +"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Data-Structure\\test.cpp","group":"local","local":true}
+{"name":"Local: test","url":"d:\\Data-Structure\\test.cpp","tests":[{"id":1730645662310,"input":"","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Data-Structure\\test.cpp","group":"local","local":true}
