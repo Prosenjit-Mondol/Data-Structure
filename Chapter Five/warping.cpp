@@ -72,6 +72,19 @@ void display() {
     for (Node* temp = head; temp; temp = temp->next)
         cout << temp->data << (temp->next ? " -> " : "\n");
 }
+void finding_n(int val)
+{
+    for (Node* temp = head; temp ; temp=temp->next)
+    {
+        if (temp->data==val)
+        {
+            cout<<"The node is finding "<<'\n';
+            return;
+        }
+        
+    }
+    cout<<"The node is not found."<<'\n';
+}
 
 int main() {
     // Insert initial nodes
@@ -102,5 +115,9 @@ int main() {
     cout << "After deleting 3rd node: "; 
     display();
 
+    cout<<"Enter node for finding: ";
+    int f;
+    cin>>f;
+    finding_n(f);
     return 0;
 }
