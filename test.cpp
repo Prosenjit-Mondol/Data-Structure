@@ -1,114 +1,64 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-
-int precedence(char op) {
-    if (op == '^')
-        return 3;
-    if (op == '*' || op == '/')
-        return 2;
-    if (op == '+' || op == '-')
-        return 1;
-    return 0;
+struct node
+{
+    int data;
+    node* next;
+    node(int val): data(val),next(nullptr){}
+};
+node* head=nullptr;
+void display()
+{
+    for (node* i = head; i; i=i->next)
+    {
+        cout<<i->data<<(i->next ? " -> " : '\n');
+    }    
 }
-
-bool hasHigherPrecedence(char top, char current) {
-    if (precedence(top) > precedence(current))
-        return true;
-    if (precedence(top) == precedence(current) && current != '^')
-        return true; // left associative
-    return false;
-}
-
-string intopost(string s) {
-    string p;
-    stack<char> st;
-    s.push_back(')');  // Adding closing parenthesis at the end
-    st.push('(');  // Starting with an opening parenthesis
-
-    for (int i = 0; i < s.size(); i++) {
-        if (s[i] == ' ')
-            continue;
-
-        if (isdigit(s[i])) {
-            p.push_back(s[i]);
-            while (i + 1 < s.size() && isdigit(s[i + 1])) {
-                i++;
-                p.push_back(s[i]);
-            }
-            p.push_back(' ');
-        }
-        else if (s[i] == '(') {
-            st.push('(');
-        }
-        else if (s[i] == ')') {
-            while (st.top() != '(') {
-                p.push_back(st.top());
-                p.push_back(' ');
-                st.pop();
-            }
-            st.pop();  // Remove the '(' from the stack
-        }
-        else {
-            while (st.top() != '(' && hasHigherPrecedence(st.top(), s[i])) {
-                p.push_back(st.top());
-                p.push_back(' ');
-                st.pop();
-            }
-            st.push(s[i]);
-        }
+void insertend(int val)
+{
+    node* newnode=new node(val);
+    if (!head)
+    {
+        head=newnode;
+        return;
     }
-
-    return p;
-}
-
-void posttovalue(string s) {
-    stack<int> st;
-    for (int i = 0; i < s.size(); i++) {
-        if (s[i] == ' ')
-            continue;
-
-        if (isdigit(s[i])) {
-            string num;
-            while (i < s.size() && isdigit(s[i])) {
-                num.push_back(s[i]);
-                i++;
-            }
-            i--;  // Adjust i because of the last increment in the loop
-            st.push(stoi(num));
-        }
-        else {
-            int b = st.top();
-            st.pop();
-            int a = st.top();
-            st.pop();
-            int r = 0;
-            if (s[i] == '+')
-                r = a + b;
-            else if (s[i] == '-')
-                r = a - b;
-            else if (s[i] == '*')
-                r = a * b;
-            else if (s[i] == '/')
-                r = a / b;
-            else if (s[i] == '^')
-                r = pow(a, b);
-
-            st.push(r);
-        }
+    node* temp=head;
+    while (temp->next)
+    {
+        temp=temp->next;
     }
-    cout << st.top() << '\n';
+    temp->next=newnode;
 }
+int main()
+{
+    cout<<"Enter the number of data: ";
+    int n;
+    cin>>n;
+    for (int i = 0; i <n; i++)
+    {
+        int a;
+        cin>>a;
+        insertend(a);
+    }
+    display();
 
-int main() {
-    cout << "Enter the expression: ";
-    string s;
-    getline(cin, s);
+    cout<<"Enter a data for adding last: ";
+    int x;
+    cin>>x;
+    insertend(x);
+    display();
 
-    string p = intopost(s);
-    cout << "The postfix expression is : " << p << '\n';
+    coutt<<"Enter the data for adding first: ";
+    cin>>x;
+    insertfirst(x);
+    display();
 
-    cout << "The value of this expression is : ";
-    posttovalue(p);
+    cout<<"Enter the data for adding Nth position :";
+    cin>>x;
+    cout<<"Enter the position: ";
+    int p;
+    cin>>p;
+    insertnth(x,p);
+    display();
 
-    return 0;
 }
