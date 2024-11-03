@@ -31,7 +31,7 @@ void matrixMultiplication(int matrix_a[][3], int matrix_b[][3], int M, int P, in
 
 void solve(void)
 {
-     int matrix_a[][3] = {{1, -2, 3}, {0, 4, 5}}; // M x P
+    int matrix_a[][3] = {{1, -2, 3}, {0, 4, 5}}; // M x P
     int matrix_b[][3] = {{3, 0, -6}, {2, -3, 1}, {2, 5, 3}}; // P x N
 
     matrixMultiplication(matrix_a, matrix_b, 2, 3, 3);

@@ -1,31 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main()
+void matrix_multiplication(int matrix_a[][3],int matrix_b[][3],int m,int p,int n)
 {
-    int n;
-    cin>>n;
-    int v[n];
-    for(int i=0;i<n;i++)
+    int c[m][n];
+    for (int i = 0; i < m; i++)
     {
-        cin>>v[i];
-    }
-    
-    for (int i = 0; i < n-1; i++)
-    {
-        for (int j= 0; j <n-i; j++)
+        for (int j= 0; j<n; j++)
         {
-            if (v[j]>v[j+1])
+            c[i][j]=0;
+            for (int k = 0; k < p; k++)
             {
-                 swap(v[j],v[j+1]);
+                c[i][j]+=matrix_a[i][k]*matrix_b[k][j];
             }
             
         }
         
     }
-    for(auto element : v)
+    for (int i = 0; i < m; i++)
     {
-    cout<<element<<" ";
+        for (int j = 0; j < n; j++)
+        {
+            cout<<c[i][j]<<" ";
+        }
+        cout<<'\n';
     }
+    
+}
+int main()
+{
+    int matrix_a[][3]={{1,-2,3},{0,4,5}};
+    int matrix_b[][3]={{3,0,-6},{2,-3,1},{2,5,3}};
+    matrix_multiplication(matrix_a,matrix_b,2,3,3);
     return 0;
 }
