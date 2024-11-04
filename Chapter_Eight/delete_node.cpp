@@ -1,7 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-
 void deletenode(vector<vector<int>>& adj,int node){
     if (node>=adj.size())
     {
