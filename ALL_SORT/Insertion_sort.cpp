@@ -19,9 +19,7 @@ void insertion(vector<int>& v,int n)
             j--;
             v[j+1]=k;
         }
-        
     }
-    
 }
 int main()
 {
